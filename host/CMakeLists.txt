@@ -222,8 +222,8 @@ IF(MSVC)
         -D_CRT_NONSTDC_NO_DEPRECATE
         -D_WINSOCK_DEPRECATED_NO_WARNINGS
     )
-    # multi-threaded build and increases the number of addressable sections in an .obj file.
-    SET (COMPILE_FLAGS ${COMPILE_FLAGS} /MP /bigobj)
+    ADD_DEFINITIONS(/MP) #multi-threaded build
+    ADD_DEFINITIONS(/bigobj) #Increases the number of addressable sections in an .obj file.
 ENDIF(MSVC)
 
 IF(CYGWIN)
@@ -341,14 +341,14 @@ UHD_INSTALL(FILES
 #{{{IMG_SECTION
 # This section is written automatically by /images/create_imgs_package.py
 # Any manual changes in here will be overwritten.
-SET(UHD_IMAGES_MD5SUM "0318989547de1221f3f71454abf43a74")
-SET(UHD_IMAGES_DOWNLOAD_SRC "uhd-images_003.010.003.000-release.zip")
+SET(UHD_IMAGES_MD5SUM "e5ac0830665a6c77a46ba0ae32f9fa11")
+SET(UHD_IMAGES_DOWNLOAD_SRC "uhd-images_003.010.001.001-release.zip")
 #}}}
 
 ########################################################################
 # Register top level components
 ########################################################################
-LIBUHD_REGISTER_COMPONENT("LibUHD" ENABLE_LIBUHD ON "Boost_FOUND;HAVE_PYTHON_PLAT_MIN_VERSION;HAVE_PYTHON_MODULE_MAKO" OFF ON)
+LIBUHD_REGISTER_COMPONENT("LibUHD" ENABLE_LIBUHD ON "Boost_FOUND;HAVE_PYTHON_PLAT_MIN_VERSION;HAVE_PYTHON_MODULE_MAKO" ON ON)
 LIBUHD_REGISTER_COMPONENT("LibUHD - C API" ENABLE_C_API ON "ENABLE_LIBUHD" OFF OFF)
 LIBUHD_REGISTER_COMPONENT("Examples" ENABLE_EXAMPLES ON "ENABLE_LIBUHD" OFF OFF)
 LIBUHD_REGISTER_COMPONENT("Utils" ENABLE_UTILS ON "ENABLE_LIBUHD" OFF OFF)
