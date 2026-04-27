@@ -21,6 +21,8 @@
 #include <uhd/convert.hpp>
 #include <uhd/types/ranges.hpp>
 #include <boost/math/special_functions/round.hpp>
+#include <boost/bind/bind.hpp>
+#include <functional>
 #include <cmath>
 
 using namespace uhd::rfnoc;
