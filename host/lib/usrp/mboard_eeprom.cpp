@@ -414,7 +414,7 @@ static void load_b000(mboard_eeprom_t &mb_eeprom, i2c_iface &iface){
     );
     std::copy(
         rate_bytes.begin(), rate_bytes.end(), //input
-        reinterpret_cast<uint8_t *>(&master_clock_rate) //output
+        static_cast<uint8_t *>(&master_clock_rate) //output
     );
     master_clock_rate = ntohl(master_clock_rate);
     if (master_clock_rate > 1e6 and master_clock_rate < 1e9){
@@ -441,8 +441,8 @@ static void store_b000(const mboard_eeprom_t &mb_eeprom, i2c_iface &iface){
         uint32_t master_clock_rate = uint32_t(boost::lexical_cast<double>(mb_eeprom["mcr"]));
         master_clock_rate = htonl(master_clock_rate);
         const byte_vector_t rate_bytes(
-            reinterpret_cast<const uint8_t *>(&master_clock_rate),
-            reinterpret_cast<const uint8_t *>(&master_clock_rate) + sizeof(master_clock_rate)
+            static_cast<const uint8_t *>(&master_clock_rate),
+            static_cast<const uint8_t *>(&master_clock_rate) + sizeof(master_clock_rate)
         );
         iface.write_eeprom(
             B000_EEPROM_ADDR, offsetof(b000_eeprom_map, mcr), rate_bytes
@@ -594,13 +594,13 @@ struct e100_eeprom_map{
 
 template <typename T> static const byte_vector_t to_bytes(const T &item){
     return byte_vector_t(
-        reinterpret_cast<const byte_vector_t::value_type *>(&item),
-        reinterpret_cast<const byte_vector_t::value_type *>(&item)+sizeof(item)
+        static_cast<const byte_vector_t::value_type *>(&item),
+        static_cast<const byte_vector_t::value_type *>(&item)+sizeof(item)
     );
 }
 
 #define sizeof_member(struct_name, member_name) \
-    sizeof(reinterpret_cast<struct_name*>(NULL)->member_name)
+    sizeof(static_cast<struct_name*>(NULL)->member_name)
 
 static void load_e100(mboard_eeprom_t &mb_eeprom, i2c_iface &iface){
     const size_t num_bytes = offsetof(e100_eeprom_map, model);
